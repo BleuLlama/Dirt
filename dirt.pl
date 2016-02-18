@@ -19,7 +19,6 @@
 #   version 1.4, 2005-Aug-25
 #	-listfiles dumps filenames for dirt piles
 #	added some minorly better support for adding new versions later
-# 	NOTE: this is the latest version of the configuration files
 #
 #   version 1.3, 2005-Feb-15
 #	moved everything into $HOME/.dirt/
@@ -62,7 +61,7 @@ $dirtversion = $ENV{'HOME'} . "/.dirt/version";
 sub usage
 {
     printf <<EOB;
-Dirt  v1.4  2005-08-25  Scott Lawrence  sdlpci\@cis.rit.edu
+Dirt  v1.6  2016-02-18  Scott Lawrence  yorgle\@gmail.com
 
 Usage: $0 [command] 
 
@@ -218,8 +217,8 @@ sub dirt_migrate
     $newIDfile = $ENV{'HOME'} . "/.dirt/id";
 
     my $vers = get_version();
-    if( $vers eq "1.4" ) {
-	printf "Dirt resources already at version 1.4\n";
+    if( $vers eq "1.6" ) {
+	printf "Dirt resources already at version 1.6\n";
 	return;
     }
 
@@ -242,6 +241,11 @@ sub dirt_migrate
     }
 
     if( $vers eq "1.3" )
+    {
+	# do nothing
+    }
+
+    if( $vers eq "1.4" )
     {
 	# do nothing
     }
@@ -299,7 +303,7 @@ sub dirt_migrate
 
     # set the current version number to the file
     open OF, ">$dirtversion";
-    print OF "1.4";
+    print OF "1.6";
     close OF;
     $dirtid = $dirtpiledir . "/version";
 }
@@ -357,7 +361,7 @@ sub dirt_swap
 sub main
 {
     # automigrate
-    if( get_version() ne "1.4" ) {
+    if( get_version() ne "1.6" ) {
 	&dirt_migrate;
     }
 
