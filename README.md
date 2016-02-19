@@ -1,4 +1,5 @@
 # Dirt
+
 DIRectory stack Tool
 
 This is a cross-instance persistent directory stack utility.  It
@@ -19,6 +20,11 @@ and "pop" or "jump" to it in another shell... or the next time you
 log in.  You can also directly edit and manipulate these files as
 the dirt tool only accesses them when you run its commands.
 
+The latest version of this should be found at 
+
+   https://github.com/BleuLlama/dirt
+
+
 ## Setup
 
 The first thing to do is to copy 'dirt.pl' into your path somwhere.
@@ -35,6 +41,9 @@ bash startup script.
     cp aliases.sh ~/.aliases.dirt.sh
     echo ". \"$HOME/.aliases.dirt.sh\"" >> ~/.profile
     
+Or of course, do all this stuff in whatever way you want. You're a
+smart person, you know what you doing.
+
 Start a new shell to try it out.
 
 

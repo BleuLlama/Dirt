@@ -7,10 +7,11 @@
 #
 #   Scott Lawrence
 #   yorgle@gmail.com
+#
 
 
 #   version 1.6, 2016-Feb-18
-#	uploaded to github
+#	uploaded to github, version bumped
 #
 #   version 1.5, 2012-May-05
 #	added 'file' to dump out the current dirt pile filename

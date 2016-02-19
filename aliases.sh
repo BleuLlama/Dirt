@@ -1,7 +1,9 @@
 # DIRT aliases
+#  https://github.com/BleuLlama/dirt
+#  v1.6  yorgle@gmail.com
 #
-#  aliases for version 1.6
-#	the latest version is at https://github.com/BleuLlama/dirt
+#  MIT license or whatever. these are just shell aliases.
+#
 
 dvi(){
     vi `dirt file`
