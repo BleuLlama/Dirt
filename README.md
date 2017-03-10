@@ -105,6 +105,12 @@ There's also a directory swap which can be used:
 Which replaces your current directory with the one in the pile.
 It's a kind of combined pop/push thing.
 
+You can also use the autocomplete, by hitting 'tab' in bash. for example:
+
+    ddirs [tab]
+
+and you'll see the list of piles...
+
 
 ## Internals
 

@@ -10,6 +10,10 @@
 #
 
 
+#   version 1.7, 2017-Mar-10
+#	Autocomplete for bash implemented
+#	Versioning streamlined
+#
 #   version 1.6, 2016-Feb-18
 #	uploaded to github, version bumped
 #
@@ -49,6 +53,22 @@
 #  available across shells in different terminals.  It is based on my old
 #  MS-DOG directory stack routines, which i made because no such thing existed
 #  under MS-DOG.  (pushd/popd/swapd/topd/dirs)
+#
+# put this in your .profile
+#dcomplete()
+#{
+#  _script_commands=$(dirt complete)
+#
+#  local cur prev
+#  COMPREPLY=()
+#  cur="${COMP_WORDS[COMP_CWORD]}"
+#  COMPREPLY=( $(compgen -W "${_script_commands}" -- ${cur}) )
+#
+#  return 0
+#}
+#
+#complete -o nospace -F dcomplete ddirs
+
 
 $|=1;
 
@@ -58,11 +78,12 @@ $dirtdir = $ENV{'HOME'} . "/.dirt/";
 $dirtpiledir = $dirtdir . "piles/";
 $dirtpileid = $dirtdir . "id";
 $dirtversion = $ENV{'HOME'} . "/.dirt/version";
+$currversion = "1.7";
 
 sub usage
 {
     printf <<EOB;
-Dirt  v1.6  2016-02-18  Scott Lawrence  yorgle\@gmail.com
+Dirt  v$currversion  2017-03-10  Scott Lawrence  yorgle\@gmail.com
 
 Usage: $0 [command] 
 
@@ -71,6 +92,7 @@ Usage: $0 [command]
 	file                    displays the full path of the current pile
 	jump    NUMBER          jumps to the [number] element in the list
 	list    [id]            lists directories/switches to list [id]
+	complete		list all piles on one line
 	pop                     pops the top element off , and prints it out
 	push    [directory]     adds cwd or <directory> into listfile
 	swap                    pops the top element off, pushes cwd on
@@ -218,8 +240,8 @@ sub dirt_migrate
     $newIDfile = $ENV{'HOME'} . "/.dirt/id";
 
     my $vers = get_version();
-    if( $vers eq "1.6" ) {
-	printf "Dirt resources already at version 1.6\n";
+    if( $vers eq $currversion ) {
+	printf "Dirt resources already at version %s\n", $currversion;
 	return;
     }
 
@@ -247,6 +269,16 @@ sub dirt_migrate
     }
 
     if( $vers eq "1.4" )
+    {
+	# do nothing
+    }
+
+    if( $vers eq "1.5" )
+    {
+	# do nothing
+    }
+
+    if( $vers eq "1.6" )
     {
 	# do nothing
     }
@@ -304,7 +336,7 @@ sub dirt_migrate
 
     # set the current version number to the file
     open OF, ">$dirtversion";
-    print OF "1.6";
+    print OF $currversion;
     close OF;
     $dirtid = $dirtpiledir . "/version";
 }
@@ -359,10 +391,30 @@ sub dirt_swap
     printf "cd %s\n", $nwd;
 }
 
+# print out all piles on one line for bash autocomplete
+sub dirt_complete
+{
+    @listing = ();
+    opendir ID, $dirtpiledir;
+
+    foreach $de (readdir ID )
+    {
+        next if ( "." eq substr $de, 0, 1 );
+        push @listing, $de;
+    }
+    closedir ID;
+
+    foreach $pile ( sort @listing )
+    {
+        printf "%s ", $pile;
+    }
+}
+
+
 sub main
 {
     # automigrate
-    if( get_version() ne "1.6" ) {
+    if( get_version() ne $currversion ) {
 	&dirt_migrate;
     }
 
@@ -383,6 +435,8 @@ sub main
 	}
     } elsif ($ARGV[0] eq "list") {
 	&dirt_list;
+    } elsif ($ARGV[0] eq "complete") {
+        &dirt_complete;
     } elsif ($ARGV[0] eq "migrate") {
 	&dirt_migrate;
     } elsif ($ARGV[0] eq "file" ) {
